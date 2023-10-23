@@ -1,0 +1,83 @@
+import java.util.PriorityQueue;
+import java.util.Scanner;
+ 
+class Process implements Comparable<Process> {
+    private int pid;
+    private String name;
+    private int priority;
+ 
+    public Process(int pid,  String name,  int priority) {
+        this.pid = pid;
+        this.name = name;
+        this.priority = priority;
+    }
+ 
+    public int getPid() {
+        return pid;
+    }
+  
+    public String getName() {
+        return name;
+    }
+ 
+    public int getPriority() {
+        return priority;
+    }
+ 
+    @Override
+    public int compareTo(Process other) {
+        return Integer.compare(other.getPriority(), this.getPriority());
+    }
+ 
+    @Override
+    public String toString() {
+        return "Process ID: " + pid + ", Name: " + name + ", Priority: " + priority;
+    }
+}
+ 
+public class PriorityQueueApp {
+    public static void main(String[] args) {
+        PriorityQueue<Process> priorityQueue = new PriorityQueue<>();
+        int counter = 0;
+ 
+        Scanner scanner = new Scanner(System.in);
+ 
+        while (true) {
+            System.out.println("\nOptions:");
+            System.out.println("1. Add a process");
+            System.out.println("2. Remove a process");
+            System.out.println("3. View processes");
+            System.out.println("4. Exit");
+ 
+            System.out.print("Enter your choice: ");
+            String choice = scanner.nextLine();
+ 
+            if (choice.equals("1")) {
+                System.out.print("Enter Process ID: ");
+                int pid = Integer.parseInt(scanner.nextLine());
+                System.out.print("Enter Process Name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter Priority: ");
+                int priority = Integer.parseInt(scanner.nextLine());
+                Process process = new Process(pid, name, priority);
+                priorityQueue.add(process);
+                System.out.println("Process " + name + " added to the queue.");
+            } else if (choice.equals("2")) {
+                Process process = priorityQueue.poll();
+                if (process != null) {
+                    System.out.println("Process " + process.getName() + " removed from the queue.");
+                } else {
+                    System.out.println("Queue is empty.");
+                }
+            } else if (choice.equals("3")) {
+                for (Process process : priorityQueue) {
+                    System.out.println(process);
+                }
+            } else if (choice.equals("4")) {
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
